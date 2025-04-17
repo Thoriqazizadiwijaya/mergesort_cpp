@@ -1,103 +1,105 @@
 #include <iostream>
 using namespace std;
 
-const int MAX = 20;
-int arr[MAX];  // Array utama
-int B[MAX];    // Array bantu
-int n;         // Jumlah elemen array
+// create main array & temporary array
+int arr[20], b[20];
+// set array input size
+int n;
 
-// Prosedur input data
-void input() {
-    while (true) {
-        cout << "Masukkan jumlah elemen array (maksimal 20): ";
+void input()
+{
+    while (true)
+    {
+        cout << "Masukkan Panjang elemen array : ";
         cin >> n;
 
-        if (n <= 20) {
+        if (n <= 20)
+        {
             break;
-        } else {
-            cout << "\nArray dapat mempunyai maksimal 20 elemen.\n";
+        }
+        else
+        {
+            cout << "\nMaksimal panjang array adalah 20\n";
         }
     }
 
-    cout << endl;
-    cout << "=======================" << endl;
-    cout << "Masukkan Elemen Array" << endl;
-    cout << "=======================" << endl;
+    // inputkan isi element array
+    cout << "\n-----------------------\n";
+    cout << "Masukkan isi element array\n";
+    cout << "-------------------------\n";
 
-    for (int i = 0; i < n; i++) {
-        cout << "Data ke-" << (i + 1) << ": ";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Array indeks ke- " << i << " : ";
         cin >> arr[i];
     }
 }
 
-// Prosedur Merge Sort
-void MergeSort(int low, int high) {
-    // Step 1: Basis rekursi
-    if (low >= high) {
-        return; // Step 1a
-    }
+// create function mergeSort
+void mergeSort(int low, int high)
+{
+    if (low > high) // step 1.a
+        return;     // step 1.b
 
-    // Step 2: Hitung nilai tengah
-    int mid = (low + high) / 2;
+    int mid = (low + high) / 2; // step 2
 
-    // Step 3: Pecah menjadi dua bagian (rekursif)
-    MergeSort(low, mid);      // Step 3a
-    MergeSort(mid + 1, high); // Step 3b
+    // step 3 - bagian rekursif, mengunjungi setiap semakitan
+    mergeSort(low, mid);       // step 3.a
+    mergeSort(mid + 1, high);  // step 3.b
 
-    // Step 4: Inisialisasi
-    int i = low;      // Step 4a
-    int j = mid + 1;  // Step 4b
-    int k = low;      // Step 4c
+    // step 4
+    int k = low, i = low, j = mid + 1; // step 4.a
 
-    // Step 4d: Proses penggabungan
-    while (i <= mid && j <= high) {
-        if (arr[i] <= arr[j]) {
-            B[k] = arr[i];
-            i++;
-        } else {
-            B[k] = arr[j];
+    while (i <= mid && j <= high) // step 4.a.a
+    {
+        if (arr[i] <= arr[j]) // step 4.a.a.i
+        {
+            b[k] = arr[i]; // step 4.a.a.ii
+            i++;           // step 4.a.a.iii
+        }
+        else
+        {
+            b[k] = arr[j];
             j++;
         }
-        k++;
+        k++; // step 4.a.a.iii
     }
 
-    // Step 4e: Jika masih ada sisa dari bagian kanan
-    while (j <= high) {
-        B[k] = arr[j];
-        j++;
-        k++;
+    while (i <= mid) // step 4.e
+    {
+        b[k] = arr[i]; // step 4.e.i
+        i++;           // step 4.e.ii
+        k++;           // step 4.e.iii
     }
 
-    // Step 4f: Jika masih ada sisa dari bagian kiri
-    while (i <= mid) {
-        B[k] = arr[i];
-        i++;
-        k++;
+    while (j <= high) // step 4.f
+    {
+        b[k] = arr[j]; // step 4.f.i
+        j++;           // step 4.f.ii
+        k++;           // step 4.f.iii
     }
 
-    // Step 5: Salin kembali hasil dari B ke arr
-    for (int y = low; y <= high; y++) {
-        arr[y] = B[y];
+    // step 5
+    for (int x = low; x <= high; x++)
+    {
+        arr[x] = b[x];
     }
 }
 
-// Prosedur untuk menampilkan hasil array
-void display() {
-    cout << endl;
-    cout << "===============================" << endl;
-    cout << "Element Array yang telah tersusun" << endl;
-    cout << "===============================" << endl;
-
-    for (int i = 0; i < n; i++) {
+void output()
+{
+    cout << "\nData setelah diurutkan (Merge Sort): ";
+    for (int i = 0; i < n; i++)
+    {
         cout << arr[i] << " ";
     }
+
     cout << endl;
 }
 
-// Fungsi utama
-int main() {
-    input();               // Input data
-    MergeSort(0, n - 1);   // Proses Merge Sort
-    display();             // Tampilkan hasil akhir
-    return 0;
+int main()
+{
+    input();
+    mergeSort(0, n - 1);
+    output();
 }
